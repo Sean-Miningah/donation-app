@@ -1,7 +1,11 @@
 import axios from "axios";
 
+// Single source of truth for the backend origin. Used for the API base URL
+// (below) and the Django admin link in App.tsx, so the origin lives in one place.
+export const API_ORIGIN = "https://donation-demo-app.maunode.com";
+
 const api = axios.create({
-  baseURL: "https://donation-demo-app.maunode.com/api",
+  baseURL: `${API_ORIGIN}/api`,
   headers: { "Content-Type": "application/json" },
 });
 

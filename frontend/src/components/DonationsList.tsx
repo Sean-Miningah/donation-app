@@ -21,15 +21,17 @@ export default function DonationsList() {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [summary, setSummary] = useState<DonationSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const refresh = async () => {
     setLoading(true);
+    setError(null);
     try {
       const [d, s] = await Promise.all([getDonations(), getDonationSummary()]);
       setDonations(d.results);
       setSummary(s);
     } catch {
-      // ignore
+      setError("Failed to load donations. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -71,6 +73,14 @@ export default function DonationsList() {
 
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="flex items-center justify-between rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <span>{error}</span>
+          <button onClick={refresh} className="font-medium underline hover:text-red-900">
+            Retry
+          </button>
+        </div>
+      )}
       {/* Stats cards */}
       {summary && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

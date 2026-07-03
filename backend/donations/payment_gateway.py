@@ -25,8 +25,8 @@ def simulate_mpesa(phone_number: str, amount: float) -> dict:
     # Simulate network delay
     time.sleep(1.5)
 
-    # Simulate payment result (80% success rate)
-    success = random.random() < 0.8
+    # Simulate payment result (60% success rate)
+    success = random.random() < 0.6
 
     if success:
         return {
@@ -63,8 +63,8 @@ def simulate_card(card_number: str, amount: float) -> dict:
             "gateway": "Card",
         }
 
-    # Simulate payment result (75% success rate for real cards)
-    success = random.random() < 0.75
+    # Simulate payment result (60% success rate for real cards)
+    success = random.random() < 0.6
 
     if success:
         return {

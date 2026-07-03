@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.utils import timezone
 from django.db.models import Sum, Count
 from rest_framework import viewsets, filters, status

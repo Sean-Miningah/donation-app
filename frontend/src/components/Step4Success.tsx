@@ -21,7 +21,7 @@ export default function Step4Success({ donation, onReset }: Step4Props) {
         </div>
         <h2 className="text-2xl font-bold text-gray-900">Thank you!</h2>
         <p className="text-sm text-gray-600 mt-1">
-          Your donation of KES {parseFloat(donation.amount).toLocaleString()} has been received.
+          Your donation of {donation.currency} {parseFloat(donation.amount).toLocaleString()} has been received.
         </p>
       </div>
 
@@ -38,7 +38,7 @@ export default function Step4Success({ donation, onReset }: Step4Props) {
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Amount</span>
             <span className="font-medium text-gray-900">
-              KES {parseFloat(donation.amount).toLocaleString()}
+              {donation.currency} {parseFloat(donation.amount).toLocaleString()}
             </span>
           </div>
           <div className="flex justify-between text-sm">

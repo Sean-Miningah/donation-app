@@ -127,50 +127,22 @@ export default function Step2Payment({ data, onChange, onNext, onBack }: Step2Pr
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="expiry" className="block text-sm font-medium text-gray-700 mb-1">
-                  Expiry date
-                </label>
-                <input
-                  id="expiry"
-                  type="text"
-                  value={data.card_expiry || ""}
-                  onChange={(e) => {
-                    let v = e.target.value.replace(/\D/g, "");
-                    if (v.length >= 2) v = v.slice(0, 2) + "/" + v.slice(2, 6);
-                    onChange({ ...data, card_expiry: v });
-                  }}
-                  placeholder="MM/YYYY"
-                  maxLength={7}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-mono outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">
-                  CVV
-                </label>
-                <input
-                  id="cvv"
-                  type="password"
-                  placeholder="123"
-                  maxLength={4}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-mono outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
             <div>
-              <label htmlFor="card_name" className="block text-sm font-medium text-gray-700 mb-1">
-                Cardholder name
+              <label htmlFor="expiry" className="block text-sm font-medium text-gray-700 mb-1">
+                Expiry date
               </label>
               <input
-                id="card_name"
+                id="expiry"
                 type="text"
-                value={data.donor_name}
-                onChange={(e) => onChange({ ...data, donor_name: e.target.value })}
-                placeholder={data.donor_name.toUpperCase() || "JANE WANJIKU"}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 uppercase"
+                value={data.card_expiry || ""}
+                onChange={(e) => {
+                  let v = e.target.value.replace(/\D/g, "");
+                  if (v.length >= 2) v = v.slice(0, 2) + "/" + v.slice(2, 6);
+                  onChange({ ...data, card_expiry: v });
+                }}
+                placeholder="MM/YYYY"
+                maxLength={7}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm font-mono outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
             </div>
           </div>

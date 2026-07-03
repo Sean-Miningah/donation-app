@@ -86,14 +86,6 @@ export default function App() {
             </div>
             <span className="font-semibold text-gray-900 text-sm">GiveNow</span>
           </div>
-          <div className="flex items-center gap-3">
-            <a
-              href="/admin/"
-              className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-            >
-              Admin
-            </a>
-          </div>
         </div>
       </header>
 

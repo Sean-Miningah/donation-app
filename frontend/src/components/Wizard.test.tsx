@@ -77,8 +77,6 @@ describe("Donation Wizard", () => {
 
     expect(screen.getByLabelText(/Card number/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Expiry date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/CVV/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Cardholder name/i)).toBeInTheDocument();
   });
 
   it("advances to step 3 review after selecting payment method", async () => {
@@ -161,6 +159,82 @@ describe("Donation Wizard", () => {
       expect(screen.getByText("Thank you!")).toBeInTheDocument();
     });
     expect(screen.getByText(/DN-001/i)).toBeInTheDocument();
+  });
+
+  it("shows failure screen and retries a failed payment", async () => {
+    vi.mocked(api.createDonation).mockResolvedValue({
+      id: 2,
+      donor_name: "Jane Wanjiku",
+      email: "jane@example.com",
+      amount: "500.00",
+      currency: "KES",
+      payment_method: "mpesa",
+      phone_number: "+254712345678",
+      card_last_four: null,
+      card_expiry: null,
+      payment_status: "failed",
+      transaction_id: "DN-FAIL",
+      payment_message: "M-Pesa payment failed. Insufficient funds.",
+      message: "General Fund",
+      processed_at: null,
+      created_at: "2026-01-01T00:00:00Z",
+      updated_at: "2026-01-01T00:00:00Z",
+      payment_result: {
+        status: "failed",
+        transaction_id: "DN-FAIL",
+        message: "M-Pesa payment failed. Insufficient funds.",
+        processed_at: null,
+      },
+    });
+    vi.mocked(api.retryDonation).mockResolvedValue({
+      id: 2,
+      donor_name: "Jane Wanjiku",
+      email: "jane@example.com",
+      amount: "500.00",
+      currency: "KES",
+      payment_method: "mpesa",
+      phone_number: "+254712345678",
+      card_last_four: null,
+      card_expiry: null,
+      payment_status: "success",
+      transaction_id: "DN-OK",
+      payment_message: "M-Pesa payment confirmed.",
+      message: "General Fund",
+      processed_at: "2026-01-01T00:00:00Z",
+      created_at: "2026-01-01T00:00:00Z",
+      updated_at: "2026-01-01T00:00:00Z",
+      payment_result: {
+        status: "success",
+        transaction_id: "DN-OK",
+        message: "M-Pesa payment confirmed.",
+        processed_at: "2026-01-01T00:00:00Z",
+      },
+    });
+
+    render(<App />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText(/Full name/i), "Jane Wanjiku");
+    await user.type(screen.getByLabelText(/Email address/i), "jane@example.com");
+    await user.type(screen.getByLabelText(/Phone number/i), "+254712345678");
+    await user.click(screen.getByRole("button", { name: /Continue to Payment/i }));
+
+    await waitFor(() => expect(screen.getByText("Choose payment method")).toBeInTheDocument());
+    await user.click(screen.getByRole("button", { name: /Review Donation/i }));
+
+    await waitFor(() => expect(screen.getByText("Review your donation")).toBeInTheDocument());
+    await user.click(screen.getByRole("button", { name: /Confirm Donation/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Payment failed")).toBeInTheDocument();
+    });
+    expect(screen.getByText(/Insufficient funds/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /Retry payment/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Thank you!")).toBeInTheDocument();
+    });
   });
 
   it("can go back from step 2 to step 1", async () => {
