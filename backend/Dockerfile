@@ -31,4 +31,4 @@ RUN uv run python manage.py collectstatic --noinput || true
 
 EXPOSE 8000
 
-CMD ["./entrypoint.sh"]
+CMD ["bash", "entrypoint.sh"]
