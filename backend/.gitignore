@@ -27,8 +27,11 @@ wheels/
 # Django
 *.log
 local_settings.py
-db.sqlite3
+# SQLite: the main DB file is committed for the demo; only transient
+# rollback/WAL sidecar files are ignored.
 db.sqlite3-journal
+db.sqlite3-wal
+db.sqlite3-shm
 media/
 staticfiles/
 

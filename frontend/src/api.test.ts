@@ -25,11 +25,10 @@ import {
 
 // Import axios to access the mock
 import axios from "axios";
-const mockedAxios = axios as unknown as { create: ReturnType<typeof vi.fn> };
-const mockClient = mockedAxios.create() as {
-  get: ReturnType<typeof vi.fn>;
-  post: ReturnType<typeof vi.fn>;
+const mockedAxios = axios as unknown as {
+  create: () => { get: ReturnType<typeof vi.fn>; post: ReturnType<typeof vi.fn> };
 };
+const mockClient = mockedAxios.create();
 
 describe("API client", () => {
   beforeEach(() => {

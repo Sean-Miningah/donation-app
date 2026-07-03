@@ -1,7 +1,5 @@
 import { useState } from "react";
-import type { DonationPayload, Donation } from "../api";
-import { Heart, CreditCard, Smartphone, ChevronLeft, Lock, CheckCircle } from "lucide-react";
-import { createDonation } from "../api";
+import type { DonationPayload } from "../api";
 
 interface Step1Props {
   data: DonationPayload;
