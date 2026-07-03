@@ -1,0 +1,15 @@
+# Cloudflare Workers deployment for the donation frontend (Vite SPA).
+# Static assets only — no Worker script. Built output lives in ./dist/.
+#
+# Deploy with:  npm run cloudflare:deploy
+
+name = "donation-app"
+compatibility_date = "2026-07-03"
+
+[assets]
+directory = "./dist/"
+# Serve index.html for any unmatched path so the SPA never 404s on deep links.
+not_found_handling = "single-page-application"
+
+[observability]
+enabled = true
